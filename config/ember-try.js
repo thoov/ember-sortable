@@ -91,8 +91,22 @@ module.exports = function() {
             }
           }
         },
-        embroiderSafe(),
-        embroiderOptimized(),
+        embroiderSafe({
+          npm: {
+            devDependencies: {
+              'broccoli-merge-trees': '*',
+              'broccoli-file-creator': '*'
+            },
+          },
+        }),
+        embroiderOptimized({
+          npm: {
+            devDependencies: {
+              'broccoli-merge-trees': '*',
+              'broccoli-file-creator': '*'
+            },
+          },
+        }),
       ]
     };
   });
