@@ -41,10 +41,10 @@
         handleVisualClass=handleVisualClass onChange=(action "updateDifferentSizedModels")
         model=differentSizedModels as |group|
       }}
-        {{#each group.model as |item|}}
+        {{#each group.model as |item index|}}
           {{#group.item data-test-vertical-demo-item class="word-break" tagName="li" model=item  as |groupItem|}}
-            <label for="demo-input">{{item}}</label>
-            <input id="demo-input" type="text">
+            <label for={{concat "demo-input" index}}>{{item}}</label>
+            <input id={{concat "demo-input" index}} type="text">
             {{#groupItem.handle data-test-vertical-demo-handle class="handle"}}
               <span data-item={{item}}>
                 <span>&vArr;</span>
@@ -61,6 +61,7 @@
       {{#sortable-group data-test-horizontal-demo-group tagName="ol" itemVisualClass=itemVisualClass handleVisualClass=handleVisualClass direction="x" onChange=(action "update") model=model.items as |group|}}
         {{#each group.model as |item|}}
           {{#group.item data-test-horizontal-demo-handle tabindex="0" tagName="li" model=item}}
+            {{item}}
             {{item-presenter item=item}}
           {{/group.item}}
         {{/each}}

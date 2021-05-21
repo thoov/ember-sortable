@@ -19,5 +19,28 @@ module.exports = function(defaults) {
     behave. You most likely want to be modifying `./index.js` or app's build file
   */
 
-  return app.toTree();
+  const { maybeEmbroider } = require('@embroider/test-setup');
+  return maybeEmbroider(app, {
+    compatAdapters: new Map([
+      ['ember-get-config', EmberGetConf]
+    ])
+  });
 };
+
+const V1Addon = require('@embroider/compat/src/v1-addon');
+const writeFile = require('broccoli-file-creator');
+const mergeTrees = require('broccoli-merge-trees');
+
+function createIndexContents(config) {
+  return `export default ${JSON.stringify(config)};`;
+}
+
+class EmberGetConf extends V1Addon.default {
+  get v2Tree() {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const configModule = require(this.app.configPath());
+    const appEnvironmentConfig = configModule(this.app.env);
+
+    return mergeTrees([super.v2Tree, writeFile('index.js', createIndexContents(appEnvironmentConfig))], { overwrite: true });
+  }
+}

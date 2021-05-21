@@ -55,7 +55,7 @@ jobs:
       fail-fast: false
       max-parallel: 1
       matrix:
-        scenario: [ember-beta, ember-release, ember-canary]
+        scenario: [ember-beta, ember-release, ember-canary, embroider-safe, embroider-optimized]
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js 10
